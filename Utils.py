@@ -208,7 +208,7 @@ def merge_chapters_into_volumes(
 
 if __name__ == "__main__":
     utils = Utils(logger=None)
-    MAIN_DIRECTORY_PATH = "/Users/silviudinu/Developer/utilities/manga-scraper/manga_downloads/More Than a Married Couple, But Not Lovers"
+    MAIN_DIRECTORY_PATH = "path/to/downloaded/manga"
     # merge_images_to_pdf(MAIN_DIRECTORY_PATH, utils)
     merge_chapters_into_volumes(
         main_directory_path=MAIN_DIRECTORY_PATH,
