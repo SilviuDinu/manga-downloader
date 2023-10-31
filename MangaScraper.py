@@ -2,7 +2,7 @@ import traceback
 import os
 from bs4 import BeautifulSoup
 from Utils import Utils
-
+import urllib
 
 class MangaScraper:
     def __init__(self, logger):
@@ -40,8 +40,10 @@ class MangaScraper:
             return
         for page in pages:
             image_url = page.get("src", None)
-            if not image_url.startswith("http"):
+            if not image_url or not image_url.startswith("http"):
                 image_url = page.get("data-lazy-src", None)
+            if not image_url or not image_url.startswith("http"):
+                image_url = page.get("data-src", None)
             if not image_url in image_urls:
                 image_urls.append(image_url)
         self.logger.info("Found %s pages for Chapter %s", len(image_urls), current_ch)
@@ -147,6 +149,9 @@ class MangaScraper:
                         chapter_directory = (
                             f"./manga_downloads/{manga_title}/chapter_{chapter_number}"
                         )
+                        if not chapter["href"].startswith("http"):
+                            if chapter["href"].startswith("/"):
+                                chapter["href"] = str(urllib.parse.urljoin(main_url, chapter["href"]))
                         self.download_files(
                             chapter["href"],
                             chapter_number,
