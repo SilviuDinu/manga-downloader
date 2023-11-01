@@ -123,7 +123,7 @@ def merge_chapters_into_volumes(
     output_path,
     utils_instance,
     chapters_per_volume=12,
-    start_volume_number=1,
+    start_volume_number=1
 ):
     pdf_writer = PdfWriter()
 
@@ -171,6 +171,8 @@ def merge_chapters_into_volumes(
 
                 if should_create_pdf:
                     cover_image_path = os.path.join(covers_path, f"{volume_number}.jpg")
+                    if not os.path.exists(cover_image_path):
+                        cover_image_path = os.path.join(covers_path, "placeholder.jpg")
 
                     if os.path.exists(cover_image_path):
                         cover_image = Image.open(cover_image_path).convert("RGB")
@@ -214,7 +216,7 @@ if __name__ == "__main__":
         main_directory_path=MAIN_DIRECTORY_PATH,
         output_path=os.path.join(MAIN_DIRECTORY_PATH, r"volumes"),
         covers_path=os.path.join(MAIN_DIRECTORY_PATH, r"covers"),
-        chapters_per_volume=7,
+        chapters_per_volume=12,
         start_volume_number=1,
         utils_instance=utils,
     )
